@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Rubik:wght@300;400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap");
+
+.button-filled {
+  background-color: #ff9d03;
+  border-radius: 10px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 18.341px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.367px;
+}
+.poppins {
+  font-family: "Poppins", sans-serif;
+}
+@font-face {
+  font-family: OpenSauceSans;
+  src: url(../public/Fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Regular.ttf);
+}
+.OpenSauceSans {
+  font-family: OpenSauceSans;
+}
+.custom-width-30{
+  width: 30%;
+}
