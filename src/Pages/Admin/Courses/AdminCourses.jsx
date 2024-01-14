@@ -89,7 +89,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `http://localhost:5000/admin/get-all-course`,
+            `https://beliverz-admin-server.vercel.app/admin/get-all-course`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
