@@ -23,7 +23,6 @@ import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import { app } from "../../../config/Firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import instructoricon from "./instructoricon.png";
 import LinearProgress from "@mui/joy/LinearProgress";
 
 const storage = getStorage(app);
