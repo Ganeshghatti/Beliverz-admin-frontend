@@ -200,13 +200,12 @@ export default function AdminCategory() {
                 {allcategory.map((category, index) => (
                   <Card
                     key={category.categoryId}
-                    className="cursor-pointer relative AdminCourses-card w-1/5"
+                    className="cursor-pointer relative AdminCourses-card w-1/5 h-auto"
                   >
                     <CardMedia
                       component="img"
                       image={category.categoryImg}
                       style={{ objectFit: "cover" }}
-                      className="h-3/4"
                     />
                     <input
                       type="file"
@@ -264,7 +263,7 @@ export default function AdminCategory() {
                 onClick={handleSubmit}
                 className="button-filled px-8 py-2 w-fit"
               >
-                Submit
+                Update
               </button>
             </div>
           )}

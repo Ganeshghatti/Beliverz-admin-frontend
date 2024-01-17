@@ -1,0 +1,20 @@
+.CourseDescription-sec1 {
+  @media (min-width: 867px) {
+    background: #ebeffb;
+  }
+}
+.CourseDescription-sec1-stats {
+  @media (min-width: 867px) {
+    position: absolute;
+    left: 60%;
+    border-radius: 20px;
+    border: 1px solid #5a81ee;
+    background: #fff;
+    box-shadow: -4px 6px 15px 0px rgba(89, 129, 237, 0.1),
+      -17px 22px 28px 0px rgba(89, 129, 237, 0.09),
+      -38px 51px 38px 0px rgba(89, 129, 237, 0.05),
+      -67px 90px 45px 0px rgba(89, 129, 237, 0.01),
+      -105px 140px 49px 0px rgba(89, 129, 237, 0);
+    width: 455px;
+  }
+}

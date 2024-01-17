@@ -263,26 +263,26 @@ export default function AdminCourses() {
     }));
   };
 
-  // const handleCategoryChange = (categoryIdinput, categoryNameInput) => {
-  //   const updatedcategory = formData.categories.some(
-  //     (category) => category.categoryId === categoryIdinput
-  //   )
-  //     ? formData.categories.filter(
-  //         (category) => category.categoryId !== categoryIdinput
-  //       )
-  //     : [
-  //         ...formData.categories,
-  //         {
-  //           categoryId: categoryIdinput,
-  //           categoryName: categoryNameInput,
-  //         },
-  //       ];
+  const handleCategoryChange = (categoryIdinput, categoryNameInput) => {
+    const updatedcategory = formData.categories.some(
+      (category) => category.categoryId === categoryIdinput
+    )
+      ? formData.categories.filter(
+          (category) => category.categoryId !== categoryIdinput
+        )
+      : [
+          ...formData.categories,
+          {
+            categoryId: categoryIdinput,
+            categoryName: categoryNameInput,
+          },
+        ];
 
-  //   setFormData({
-  //     ...formData,
-  //     categories: updatedcategory,
-  //   });
-  // };
+    setFormData({
+      ...formData,
+      categories: updatedcategory,
+    });
+  };
 
   const handleInstructorChange = (instructorIdinput, instructorNameInput) => {
     const updatedInstructors = formData.instructors.some(
@@ -580,6 +580,10 @@ export default function AdminCourses() {
 
             <div className="flex flex-col w-full">
               <p className="text-lg font-normal poppins">What Will you learn</p>
+              <p className="text-sm font-normal poppins text-gray">
+                To fit best in design, add 4-7 points, each point consisting
+                around 12 words
+              </p>
               <label className="flex w-full justify-between gap-3">
                 <TextField
                   type="text"

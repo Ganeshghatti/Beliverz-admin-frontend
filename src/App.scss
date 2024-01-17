@@ -21,6 +21,32 @@
 .OpenSauceSans {
   font-family: OpenSauceSans;
 }
-.custom-width-30{
+.custom-width-15 {
+  width: 15%;
+}
+.custom-width-30 {
   width: 30%;
+}
+.custom-width-45 {
+  width: 45%;
+}
+.custom-width-88 {
+  width: 88%;
+}
+
+.button-filled {
+  display: flex;
+  width: 121px;
+  height: 42px;
+  padding: 10px 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #5a81ee;
+  color: white;
+}
+.border-test{
+  border: 1px solid red;
 }
