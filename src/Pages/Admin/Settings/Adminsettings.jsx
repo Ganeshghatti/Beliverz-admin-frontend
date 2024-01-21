@@ -127,7 +127,7 @@ export default function Adminsettings() {
           <Spinnerf />
         ) : (
           <>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-1/3">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-1/3 md:w-full">
               <p className="text-4xl font-semibold md:text-2xl">
                 Change Admin Password
               </p>

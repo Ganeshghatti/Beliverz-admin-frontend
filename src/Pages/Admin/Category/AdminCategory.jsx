@@ -209,11 +209,11 @@ export default function AdminCategory() {
               className="flex flex-wrap flex-col items-center justify-center w-11/12 h-full md:items-center gap-16"
               style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
-              <div className="w-full flex justify-around md:flex-col">
+              <div className="w-full flex justify-around md:flex-col md:gap-14">
                 {allcategory.map((category, index) => (
                   <Card
                     key={category.categoryId}
-                    className="cursor-pointer relative AdminCourses-card w-1/5 h-auto"
+                    className="cursor-pointer relative md:w-full w-1/5 h-auto"
                   >
                     <CardMedia
                       component="img"

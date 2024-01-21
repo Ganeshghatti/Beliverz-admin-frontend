@@ -33,7 +33,15 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Avatar from "@mui/joy/Avatar";
 import AccordionGroup from "@mui/joy/AccordionGroup";
 import { v4 as uuidv4 } from "uuid";
-import Table from "@mui/joy/Table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 export default function Dashboard() {
   const { courseId } = useParams();
@@ -90,29 +98,29 @@ export default function Dashboard() {
       ) : (
         <>
           {allusers && allusers.length > 0 && (
-            <div
-              className="flex flex-wrap md:flex-col justify-between gap-8 w-3/4 h-full md:items-center"
+            <TableContainer
+              className="flex flex-wrap md:flex-col justify-between w-3/4 h-full md:items-center overflow-x-auto"
               style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
-              <Table aria-label="basic table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "40%" }}>Users</th>
-                    <th>Username</th>
-                    <th>createdAt</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <Table aria-label="basic table" className="overflow-x-auto">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="text-white">Users</TableCell>
+                    <TableCell>Username</TableCell>
+                    <TableCell>createdAt</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {allusers.map((item, index) => (
-                    <tr>
-                      <td>{item.email}</td>
-                      <td>{item.username}</td>
-                      <td>{item.createdAt}</td>
-                    </tr>
+                    <TableRow>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>{item.username}</TableCell>
+                      <TableCell>{item.createdAt}</TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
-            </div>
+            </TableContainer>
           )}
         </>
       )}

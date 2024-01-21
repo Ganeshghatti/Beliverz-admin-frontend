@@ -44,13 +44,16 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "40vw",
-  bgcolor: "white",
+  backgroundColor: "white",
   border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+  boxShadow: "0 3px 6px rgba(0, 0, 0, 0.16)",
+  padding: "16px",
   overflow: "auto",
   height: "100vh",
+  width: "90vw", 
+  '@media (min-width: 868px)': {
+    width: "75vw",
+  },
 };
 
 export default function AdminInstructors() {
@@ -490,7 +493,6 @@ export default function AdminInstructors() {
             border: "2px solid #000",
             overflow: "auto",
             height: "100vh",
-
           }}
         >
           <h1 className="text-4xl font-semibold poppins text-center my-6">

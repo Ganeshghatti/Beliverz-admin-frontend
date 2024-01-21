@@ -7,7 +7,15 @@ import Panel from "../Panel/Panel";
 import Spinnerf from "../../../Components/Spinnerf";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Table from "@mui/joy/Table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 export default function AdminForm() {
   const [formData, setformData] = useState();
@@ -63,35 +71,35 @@ export default function AdminForm() {
       ) : (
         <>
           {formData && formData.length > 1 && (
-            <div
+            <TableContainer
               className="flex flex-wrap md:flex-col justify-between gap-8 w-3/4 h-full md:items-center"
               style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
               <Table aria-label="basic table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>query</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="text-white">Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Phone No</TableCell>
+                    <TableCell>query</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Time</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {formData.map((item, index) => (
-                    <tr>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.query}</td>
-                      <td>{item.date}</td>
-                      <td>{item.time}</td>
-                    </tr>
+                    <TableRow>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>{item.phone}</TableCell>
+                      <TableCell>{item.query}</TableCell>
+                      <TableCell>{item.date}</TableCell>
+                      <TableCell>{item.time}</TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
-            </div>
+            </TableContainer>
           )}
         </>
       )}
