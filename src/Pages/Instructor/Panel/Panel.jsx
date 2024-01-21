@@ -95,11 +95,11 @@ export default function Panel(tab) {
             <Typography component="h1" variant="h6" sx={{ flexGrow: 1 }}>
               {tab.tab}
             </Typography>
-            <IconButton>
+            {/* <IconButton>
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
