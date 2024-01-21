@@ -32,6 +32,7 @@ import Chip from "@mui/material/Chip";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const storage = getStorage(app);
 
@@ -173,7 +174,6 @@ export default function AdminCourses() {
               },
             }
           );
-          console.log(response.data.category);
           setallcategory(response.data.category);
           setLoading(false);
         }
@@ -702,90 +702,77 @@ export default function AdminCourses() {
         <>
           {allcourses && (
             <div
-              className="flex flex-wrap md:flex-col justify-between gap-8 w-3/4 h-full md:items-center"
+              className="flex flex-wrap md:flex-col justify-center gap-8 w-3/4 h-full md:items-center"
               style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
-              <Card
-                className="flex flex-col items-center justify-center cursor-pointer AdminCourses-card"
+              <div
+                className="flex flex-col items-center justify-center cursor-pointer admin-courses-card bg-[#F1F3F2]"
                 onClick={handleOpen}
-                style={{ backgroundColor: "#F1F3F2", maxWidth: 345 }}
               >
                 <img
                   style={{ objectFit: "contain" }}
                   src={plus}
-                  className="w-1/2"
+                  className="w-2/5"
                 />
-                <CardContent>
-                  <p className="font-bold text-2xl md:text-xl">
-                    Create New Course
-                  </p>
-                </CardContent>
-              </Card>
+                <p className="font-bold text-2xl md:text-xl">
+                  Create New Course
+                </p>
+              </div>
               {allcourses.map((item, index) => (
                 <Link to={`/admin/courses/${item.courseId}`}>
-                  <Card
+                  <div
+                    className="cursor-pointer relative admin-courses-card gap-1 rounded-xl flex flex-col items-center"
                     key={item.courseId}
-                    className="cursor-pointer relative AdminCourses-card"
-                    style={{ maxWidth: 345 }}
                   >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={item.thumbmail || imgplaceholder}
-                      style={{ objectFit: "contain" }}
+                    <img
+                      src={item.thumbnail || imgplaceholder}
+                      className="h-72 w-full object-cover rounded-xl"
                     />
 
-                    <div className="p-4">
-                      <Chip
-                        label={item.payment}
-                        variant={
-                          item.payment === "free" ? "outlined" : "filled"
-                        }
-                        style={{
-                          backgroundColor:
-                            item.payment === "free" ? "transparent" : "#5A81EE",
-                          color: item.payment === "free" ? "black" : "white",
-                        }}
-                        className="absolute top-3 right-3 z-50"
-                      />
-
-                      <div className="flex items-center w-full justify-center absolute">
-                        <Rating
-                          value={item.rating}
-                          precision={0.25}
-                          emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                          readOnly
-                          className="z-50 -top-14 absolute"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2 w-11/12 self-center m-auto">
-                        <p className="font-semibold text-2xl md:text-xl">
-                          {item.courseName}
-                        </p>
-                        <p className="text-xl md:text-lg font-bold">
-                          <span className="text-2xl font-bold">
-                            {item.courseInfo.totalEnrollments}
-                          </span>
-                          enrollments
-                        </p>
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.courseCategory.map((category, index) => (
-                          <Chip
-                            key={category.categoryId}
-                            label={category.categoryName}
-                            variant="outlined"
-                            style={{
-                              backgroundColor: "#5A81EE",
-                              color: "white",
-                            }}
-                            className="text-normal font-semibold OpenSauceSans w-fit"
-                          />
-                        ))}
-                      </div>
+                    <Chip
+                      label={
+                        item.payment === "free" ? (
+                          item.payment
+                        ) : (
+                          <p className="text-sm p-1 flex justify-center items-center">
+                            <CurrencyRupeeIcon style={{ fontSize: "16px" }} />
+                            {item.amountInINR}
+                          </p>
+                        )
+                      }
+                      variant={
+                        item.coursepayment === "free" ? "filled" : "outlined"
+                      }
+                      style={{
+                        backgroundColor: "#5A81EE",
+                        color: "white",
+                      }}
+                      className="absolute top-3 right-3 z-50"
+                    />
+                    <div className="w-11/12 flex justify-between">
+                      <p className="text-sm font-normal text-black1">
+                        {item.language}
+                      </p>
+                      <p className="text-sm font-normal text-black1">
+                        {item.courseInfo.totalEnrollments} enrollments
+                      </p>
                     </div>
-                  </Card>
+
+                    <p className="w-11/12 font-medium text-black1 text-xl">
+                      {item.courseName}
+                    </p>
+                    <div className="flex justify-between w-11/12 py-4 items-center">
+                      <div />
+                      <Rating
+                        value={item.courserating}
+                        precision={0.25}
+                        emptyIcon={
+                          <StarBorderIcon style={{ fontSize: "18px" }} />
+                        }
+                        readOnly
+                      />
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>

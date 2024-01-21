@@ -120,49 +120,59 @@ export default function InstructorCourses() {
               )}
               {allcourses.map((item, index) => (
                 <Link to={`/instructor/courses/${item.courseId}`}>
-                  <Card
+                  <div
+                    className="cursor-pointer relative admin-courses-card gap-1 rounded-xl flex flex-col items-center"
                     key={item.courseId}
-                    className="cursor-pointer relative InstructorCourses-card"
-                    style={{ maxWidth: 345 }}
                   >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={item.thumbmail || imgplaceholder}
-                      style={{ objectFit: "contain" }}
+                    <img
+                      src={item.thumbnail || imgplaceholder}
+                      className="h-72 w-full object-cover rounded-xl"
                     />
 
-                    <div className="p-4">
-                      <Chip
-                        label={item.payment}
-                        variant={
-                          item.payment === "free" ? "outlined" : "filled"
-                        }
-                        style={{
-                          backgroundColor:
-                            item.payment === "free" ? "transparent" : "#FF9D03",
-                          color: item.payment === "free" ? "black" : "white",
-                        }}
-                        className="absolute top-3 right-3 z-50"
-                      />
-
-                      <div className="flex items-center w-full justify-center absolute">
-                        <Rating
-                          value={item.courserating}
-                          precision={0.25}
-                          emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                          readOnly
-                          className="z-50 -top-14 absolute"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2 w-11/12 self-center m-auto">
-                        <p className="font-semibold text-2xl md:text-xl">
-                          {item.courseName}
-                        </p>
-                      </div>
+                    <Chip
+                      label={
+                        item.payment === "free" ? (
+                          item.payment
+                        ) : (
+                          <p className="text-sm p-1 flex justify-center items-center">
+                            <CurrencyRupeeIcon style={{ fontSize: "16px" }} />
+                            {item.amountInINR}
+                          </p>
+                        )
+                      }
+                      variant={
+                        item.coursepayment === "free" ? "filled" : "outlined"
+                      }
+                      style={{
+                        backgroundColor: "#5A81EE",
+                        color: "white",
+                      }}
+                      className="absolute top-3 right-3 z-50"
+                    />
+                    <div className="w-11/12 flex justify-between">
+                      <p className="text-sm font-normal text-black1">
+                        {item.language}
+                      </p>
+                      <p className="text-sm font-normal text-black1">
+                        {item.courseInfo.totalEnrollments} enrollments
+                      </p>
                     </div>
-                  </Card>
+
+                    <p className="w-11/12 font-medium text-black1 text-xl">
+                      {item.courseName}
+                    </p>
+                    <div className="flex justify-between w-11/12 py-4 items-center">
+                      <div />
+                      <Rating
+                        value={item.courserating}
+                        precision={0.25}
+                        emptyIcon={
+                          <StarBorderIcon style={{ fontSize: "18px" }} />
+                        }
+                        readOnly
+                      />
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>

@@ -112,7 +112,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin.vercel.app/instructor/login",
+        "https://beliverz-admin-server.vercel.app/instructor/login",
         instructorFormData
       );
       const instructor = {
@@ -133,6 +133,7 @@ const Login = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      console.log(error)
       setAlert(
         <Alert
           style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
