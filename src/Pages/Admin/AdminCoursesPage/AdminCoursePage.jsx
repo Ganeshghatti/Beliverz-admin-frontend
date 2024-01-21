@@ -63,6 +63,7 @@ export default function AdminCoursePage() {
   const [pdfName, setpdfName] = useState();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedpdf, setSelectedpdf] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpandedPanel(isExpanded ? panel : null);
@@ -625,6 +626,7 @@ export default function AdminCoursePage() {
       setTimeout(() => setAlert(null), 5000);
     }
   };
+
   const handledeletecontent = async (chapterId, contentId) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this content?"
@@ -666,6 +668,7 @@ export default function AdminCoursePage() {
       setTimeout(() => setAlert(null), 5000);
     }
   };
+  
   return (
     <div className="AdminCoursePage flex flex-col relative">
       <Stack spacing={2}>{alert}</Stack>

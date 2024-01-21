@@ -112,7 +112,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/login",
+        "https://beliverz-admin.vercel.app/instructor/login",
         instructorFormData
       );
       const instructor = {
@@ -148,7 +148,7 @@ const Login = () => {
 
   return (
     <section
-      className="w-screen h-screen flex md:flex-col justify-center items-center"
+      className="w-screen h-screen flex md:flex-col justify-center items-center gap-6"
       id="login"
     >
       {loading && <Spinnerf />} <Stack spacing={2}>{alert}</Stack>{" "}
@@ -157,7 +157,7 @@ const Login = () => {
         className="rounded md:w-11/12 w-1/3 p-12 flex flex-col gap-3 md:p-6"
         style={{ backgroundColor: "white" }}
       >
-        <p className="text-navyblue text-3xl font-semibold text-center">
+        <p className="text-black text-3xl font-semibold text-center">
           INSTRUCTOR LOGIN
         </p>
         <TextField
@@ -198,7 +198,7 @@ const Login = () => {
         </FormControl>
         <button
           type="submit"
-          className="bg-navyblue border-1 border-solid border-navyblue text-white rounded w-full py-3 hero-hover-animated-button"
+          className="bg-blue border-1 border-solid border-blue text-white rounded w-full py-3 hero-hover-animated-button"
         >
           Instructor Login
         </button>
@@ -208,7 +208,7 @@ const Login = () => {
         className="rounded md:w-11/12 w-1/3 p-12 flex flex-col gap-3 md:p-6"
         style={{ backgroundColor: "white" }}
       >
-        <p className="text-navyblue text-3xl font-semibold text-center">
+        <p className="text-black text-3xl font-semibold text-center">
           ADMIN LOGIN
         </p>
         <TextField
@@ -249,7 +249,7 @@ const Login = () => {
         </FormControl>
         <button
           type="submit"
-          className="bg-navyblue border-1 border-solid border-navyblue text-white rounded w-full py-3 hero-hover-animated-button"
+          className="bg-blue border-1 border-solid border-blue text-white rounded w-full py-3 hero-hover-animated-button"
         >
           Admin Login
         </button>

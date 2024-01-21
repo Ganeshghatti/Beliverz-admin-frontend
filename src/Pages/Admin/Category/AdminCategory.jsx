@@ -232,7 +232,7 @@ export default function AdminCategory() {
                         label={category.categoryId}
                         variant="filled"
                         style={{
-                          backgroundColor: "#FF9D03",
+                          backgroundColor: "#5A81EE",
                           color: "white",
                         }}
                         className="absolute top-3 right-3 z-50"

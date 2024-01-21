@@ -74,8 +74,8 @@ export default function Navbar() {
                 <Link
                   to="/"
                   className={`${
-                    isActiveTab("/") ? "text-navyblue" : "text-gray2"
-                  } hover:text-navyblue`}
+                    isActiveTab("/") ? "text-blue" : "text-gray2"
+                  } hover:text-blue`}
                 >
                   Home
                 </Link>

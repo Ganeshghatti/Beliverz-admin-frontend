@@ -64,10 +64,10 @@ export default function AdminForm() {
         <>
           {formData && formData.length > 1 && (
             <div
-              className="flex justify-center gap-8 w-3/4 h-auto items-center"
+              className="flex flex-wrap md:flex-col justify-between gap-8 w-3/4 h-full md:items-center"
               style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
-              <Table aria-label="basic table" className="border-test w-full">
+              <Table aria-label="basic table">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -85,7 +85,7 @@ export default function AdminForm() {
                       <td>{item.email}</td>
                       <td>{item.phone}</td>
                       <td>{item.query}</td>
-                      <td>{item.date}</td> 
+                      <td>{item.date}</td>
                       <td>{item.time}</td>
                     </tr>
                   ))}

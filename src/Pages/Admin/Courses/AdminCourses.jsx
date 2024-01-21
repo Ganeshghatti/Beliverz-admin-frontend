@@ -743,7 +743,7 @@ export default function AdminCourses() {
                         }
                         style={{
                           backgroundColor:
-                            item.payment === "free" ? "transparent" : "#FF9D03",
+                            item.payment === "free" ? "transparent" : "#5A81EE",
                           color: item.payment === "free" ? "black" : "white",
                         }}
                         className="absolute top-3 right-3 z-50"
@@ -777,7 +777,7 @@ export default function AdminCourses() {
                             label={category.categoryName}
                             variant="outlined"
                             style={{
-                              backgroundColor: "#FF9D03",
+                              backgroundColor: "#5A81EE",
                               color: "white",
                             }}
                             className="text-normal font-semibold OpenSauceSans w-fit"

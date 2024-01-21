@@ -82,7 +82,7 @@ export default function Dashboard() {
   }, [admin]);
 
   return (
-    <div className="AdminDashboard flex">
+    <div id="AdminDashboard" className="AdminDashboard flex">
       <Panel tab="Dashboard" />
       <Stack spacing={2}>{alert}</Stack>
       {loading ? (

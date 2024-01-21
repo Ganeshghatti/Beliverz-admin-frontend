@@ -615,7 +615,7 @@ export default function AdminInstructors() {
                       label={item.instructorId}
                       variant="filled"
                       style={{
-                        backgroundColor: "#FF9D03",
+                        backgroundColor: "#5A81EE",
                         color: "white",
                       }}
                       className="absolute top-3 left-3 z-50"
@@ -633,7 +633,7 @@ export default function AdminInstructors() {
                           key={course.courseId}
                           label={course.courseName}
                           variant="outlined"
-                          style={{ backgroundColor: "#FF9D03", color: "white" }}
+                          style={{ backgroundColor: "#5A81EE", color: "white" }}
                           className="text-normal font-semibold OpenSauceSans w-fit"
                         />
                       ))}
