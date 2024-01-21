@@ -130,39 +130,19 @@ export default function InstructorCourses() {
                     />
 
                     <Chip
-                      label={
-                        item.payment === "free" ? (
-                          item.payment
-                        ) : (
-                          <p className="text-sm p-1 flex justify-center items-center">
-                            <CurrencyRupeeIcon style={{ fontSize: "16px" }} />
-                            {item.amountInINR}
-                          </p>
-                        )
-                      }
-                      variant={
-                        item.coursepayment === "free" ? "filled" : "outlined"
-                      }
+                      label={item.payment}
+                      variant={item.payment === "free" ? "filled" : "outlined"}
                       style={{
                         backgroundColor: "#5A81EE",
                         color: "white",
                       }}
                       className="absolute top-3 right-3 z-50"
                     />
-                    <div className="w-11/12 flex justify-between">
-                      <p className="text-sm font-normal text-black1">
-                        {item.language}
-                      </p>
-                      <p className="text-sm font-normal text-black1">
-                        {item.courseInfo.totalEnrollments} enrollments
-                      </p>
-                    </div>
 
-                    <p className="w-11/12 font-medium text-black1 text-xl">
-                      {item.courseName}
-                    </p>
-                    <div className="flex justify-between w-11/12 py-4 items-center">
-                      <div />
+                    <div className="flex justify-between w-11/12 items-center py-4">
+                      <p className="w-11/12 font-medium text-black1 text-xl">
+                        {item.courseName}
+                      </p>{" "}
                       <Rating
                         value={item.courserating}
                         precision={0.25}
