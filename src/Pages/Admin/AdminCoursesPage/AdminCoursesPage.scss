@@ -18,3 +18,21 @@
     width: 455px;
   }
 }
+.CourseDescription-sec1-stats-radio {
+  flex-direction: row !important;
+  padding: 0 !important;
+}
+
+#AdminCoursePage .css-1c35hjw-MuiPaper-root-MuiAccordion-root.Mui-expanded {
+  margin: 0;
+}
+
+.CourseDescription-accordian:first-child {
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
+.CourseDescription-accordian:last-child {
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+}

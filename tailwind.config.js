@@ -8,19 +8,18 @@ export default {
   ],
   theme: {
     colors: {
-      white: "#FFF",
-      black: "#000",
-      "blue-2": "#ADD7F6",
-      "blue-1": "#87BFFF",
-      "blue-0": "#3F8EFC",
-      "blue+1": "#2667FF",
-      "blue+2": "#3B28CC",
       bluepurple: "#4633D7",
       navyblue: "#1F20AE",
+      orangetext:"#FFB800",
+      orangebg:"#FF9D03",
+      white: "#FFF",
+      black: "#000",
+      black1:"#262626",
+      black2:"#161616",
+      black3:"#383942",
+      blue:"#5A81EE",
       gray: "#878787",
       gray2: "#656565",
-      orangetext:"#FFB800",
-      orangebg:"#FF9D03"
     },
     extend: {
       screens: {

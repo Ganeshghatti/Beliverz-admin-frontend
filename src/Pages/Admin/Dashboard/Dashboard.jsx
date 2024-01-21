@@ -1,187 +1,121 @@
-import * as React  from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
-import Panel from '../Panel/Panel';
-import { useState } from 'react';
-
-const drawerWidth = 240;
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'fixed', // Change this line to make the sidebar fixed
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }),
-);
-
-const defaultTheme = createTheme();
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./AdminDashboard.scss";
+import { useParams } from "react-router-dom";
+import Panel from "../Panel/Panel";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Spinnerf from "../../../Components/Spinnerf";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { TextField, Select, MenuItem } from "@mui/material";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import CancelIcon from "@mui/icons-material/Cancel";
+import Checkbox from "@mui/material/Checkbox";
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import { app } from "../../../config/Firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import LinearProgress from "@mui/joy/LinearProgress";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Avatar from "@mui/joy/Avatar";
+import AccordionGroup from "@mui/joy/AccordionGroup";
+import { v4 as uuidv4 } from "uuid";
+import Table from "@mui/joy/Table";
 
 export default function Dashboard() {
-  const [open, setOpen] = useState(true)
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const { courseId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
+  const [allusers, setallusers] = useState();
+  const admin = useSelector((state) => state.admin.admin);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (admin.isAdmin) {
+          setLoading(true);
+          const response = await axios.get(
+            `https://beliverz-admin-server.vercel.app/admin/get-all-users`,
+            {
+              headers: {
+                Authorization: `Bearer ${admin.token}`,
+              },
+            }
+          );
+          console.log(response.data.users);
+          setallusers(response.data.users);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setLoading(false);
+          return navigate(`/`);
+        }
+        setAlert(
+          <Alert
+            style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
+            variant="filled"
+            severity="error"
+          >
+            {error.response.data.error}
+          </Alert>
+        );
+        setTimeout(() => setAlert(null), 5000);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [admin]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
-        {/* <CssBaseline />
-        <AppBar position="fixed" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px',
-            }}
-          >
-            <IconButton
-              edge="start"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
+    <div className="AdminDashboard flex">
+      <Panel tab="Dashboard" />
+      <Stack spacing={2}>{alert}</Stack>
+      {loading ? (
+        <Spinnerf />
+      ) : (
+        <>
+          {allusers && allusers.length > 0 && (
+            <div
+              className="flex flex-wrap md:flex-col justify-between gap-8 w-3/4 h-full md:items-center"
+              style={{ marginLeft: "1vw", marginTop: "10vh" }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography>
-            <IconButton>
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
-          </List>
-        </Drawer> */}
-        <Panel tab="Dashboard"/>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+              <Table aria-label="basic table">
+                <thead>
+                  <tr>
+                    <th style={{ width: "40%" }}>Users</th>
+                    <th>Username</th>
+                    <th>createdAt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allusers.map((item, index) => (
+                    <tr>
+                      <td>{item.email}</td>
+                      <td>{item.username}</td>
+                      <td>{item.createdAt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }

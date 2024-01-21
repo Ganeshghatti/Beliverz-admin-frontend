@@ -16,6 +16,7 @@ import Checkbox from "@mui/material/Checkbox";
 import imgplaceholder from "./imgplaceholder.jpg";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "../../../config/Firebase";
+import { TextField } from "@mui/material";
 
 const storage = getStorage(app);
 
@@ -50,6 +51,7 @@ export default function AdminCategory() {
               },
             }
           );
+          console.log(responseCategories.data.category);
           setallcategory(responseCategories.data.category);
 
           setLoading(false);
@@ -135,13 +137,13 @@ export default function AdminCategory() {
 
   const handleAddNewItemImgChange = async (categoryId, e) => {
     const file = e.target.files[0];
-  
+
     if (file) {
       try {
         const storageRef = ref(storage, `categories/${categoryId}`);
         const snapshot = await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(snapshot.ref);
-  
+
         setallcategory((prevCategories) => {
           return prevCategories.map((category) =>
             category.categoryId === categoryId
@@ -153,6 +155,17 @@ export default function AdminCategory() {
         console.error(`Error uploading ${file.name}:`, error);
       }
     }
+  };
+  const handleCategoryNameChange = (e, categoryId) => {
+    const newCategoryName = e.target.value;
+
+    setallcategory((prevCategories) => {
+      return prevCategories.map((category) =>
+        category.categoryId === categoryId
+          ? { ...category, categoryName: newCategoryName }
+          : category
+      );
+    });
   };
 
   const handleCategoryChange = (categoryId, courseName, courseId) => {
@@ -185,7 +198,7 @@ export default function AdminCategory() {
 
   return (
     <div id="AdminCategory" className="flex">
-      <Panel tab="Categories"/>
+      <Panel tab="Categories" />
       <Stack spacing={2}>{alert}</Stack>
       {loading ? (
         <Spinnerf />
@@ -224,10 +237,15 @@ export default function AdminCategory() {
                         }}
                         className="absolute top-3 right-3 z-50"
                       />
+                      <TextField
+                        className="font-semibold text-2xl md:text-xl"
+                        value={category.categoryName}
+                        label="Category Name"
+                        onChange={(e) =>
+                          handleCategoryNameChange(e, category.categoryId)
+                        }
+                      />
 
-                      <p className="font-semibold text-2xl md:text-xl">
-                        {category.categoryName}
-                      </p>
                       {allcourses ? (
                         <div className="flex flex-wrap gap-1">
                           {allcourses.map((course, index) => (
