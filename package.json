@@ -36,6 +36,7 @@
     "sass": "^1.69.6",
     "scss": "^0.2.4",
     "styled-components": "^6.1.6",
+    "uuid": "^9.0.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {

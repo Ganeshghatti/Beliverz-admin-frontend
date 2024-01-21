@@ -24,6 +24,17 @@ import { app } from "../../../config/Firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import LinearProgress from "@mui/joy/LinearProgress";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Avatar from "@mui/joy/Avatar";
+import AccordionGroup from "@mui/joy/AccordionGroup";
+import { v4 as uuidv4 } from "uuid";
 
 const storage = getStorage(app);
 const videoStyle = {
@@ -39,7 +50,20 @@ export default function AdminCoursePage() {
   const [formData, setFormData] = useState({});
   const [videoUploadLoader, setvideoUploadLoader] = useState(false);
   const [thumbnailUploadLoader, setthumbnailUploadLoader] = useState(false);
-  
+  const [chapterName, setchapterName] = useState("");
+  const [expandedPanel, setExpandedPanel] = useState(null);
+  const [instructors, setinstructors] = useState();
+  const [instructorloading, setinstructorLoading] = useState(false);
+  const [chaptercontentupload, setchaptercontentupload] = useState(false);
+  const [videoName, setvideoName] = useState();
+  const [pdfName, setpdfName] = useState();
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedpdf, setSelectedpdf] = useState(null);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpandedPanel(isExpanded ? panel : null);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,7 +78,7 @@ export default function AdminCoursePage() {
               },
             }
           );
-          console.log(response);
+          console.log(response.data.course.chapters.content);
           setFormData(response.data.course);
           setLoading(false);
         }
@@ -74,6 +98,45 @@ export default function AdminCoursePage() {
         );
         setTimeout(() => setAlert(null), 5000);
         setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [admin]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (courseId && admin.token) {
+          setinstructorLoading(true);
+          console.log(courseId);
+          const response = await axios.get(
+            `https://beliverz-admin-server.vercel.app/courses/${courseId}/instructors`,
+            {
+              headers: {
+                Authorization: `Bearer ${admin.token}`,
+              },
+            }
+          );
+          setinstructors(response.data.instructors);
+          setinstructorLoading(false);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setLoading(false);
+          return navigate(`/`);
+        }
+        setAlert(
+          <Alert
+            style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
+            variant="filled"
+            severity="error"
+          >
+            {error.response}
+          </Alert>
+        );
+        setTimeout(() => setAlert(null), 5000);
+        setinstructorLoading(false);
       }
     };
 
@@ -158,6 +221,7 @@ export default function AdminCoursePage() {
       },
     }));
   };
+
   const handleWhatwillyoulearnAdd = (e) => {
     e.preventDefault();
 
@@ -226,6 +290,7 @@ export default function AdminCoursePage() {
       setTimeout(() => setAlert(null), 5000);
     }
   };
+
   const handlethumbnailupload = async (e) => {
     if (!formData.courseId) {
       setAlert(
@@ -243,10 +308,7 @@ export default function AdminCoursePage() {
     try {
       setthumbnailUploadLoader(true);
       const file = e.target.files[0];
-      const storageRef = ref(
-        storage,
-        `courses/${formData.courseId}/thumbnail`
-      );
+      const storageRef = ref(storage, `courses/${formData.courseId}/thumbnail`);
 
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
@@ -272,6 +334,253 @@ export default function AdminCoursePage() {
     }
   };
 
+  const createNewCoursef = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `https://beliverz-admin-server.vercel.app/courses/${courseId}/newChapter`,
+        { chapterName, email: admin.email },
+        {
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+        }
+      );
+
+      setAlert(
+        <Alert
+          style={{
+            position: "fixed",
+            bottom: "3%",
+            left: "2%",
+            zIndex: 999,
+          }}
+          variant="filled"
+          severity="success"
+        >
+          Chapter Created successfully!
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      setLoading(false);
+      setchapterName("");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setLoading(false);
+        return navigate(`/`);
+      }
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
+          variant="filled"
+          severity="error"
+        >
+          {error.response.data.error}
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      setLoading(false);
+    }
+  };
+
+  const handlechaptervideoonchange = async (e, chapterId) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("video/")) {
+      console.log(file, file.name);
+      setSelectedVideo({ file, videoName: file.name });
+    } else {
+      alert("Please select a valid video file.");
+    }
+  };
+
+  const handlechaptervideoupload = async (e, chapterId) => {
+    if (!formData.courseId) {
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          Course ID not found
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+
+    try {
+      setvideoUploadLoader(true);
+
+      const prefix = "VIDEO";
+      const uniquePart = uuidv4().replace(/-/g, "").substr(0, 6);
+      const videoId = `${prefix}${uniquePart}`;
+
+      const storageRef = ref(
+        storage,
+        `courses/${formData.courseId}/${chapterId}/${videoId}`
+      );
+
+      const snapshot = await uploadBytes(storageRef, selectedVideo.file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      setvideoUploadLoader(false);
+
+      const response = await axios.post(
+        `https://beliverz-admin-server.vercel.app/courses/${courseId}/upload-content`,
+        {
+          content: {
+            VideoURL: downloadURL,
+            VideoName: videoName,
+            contentId: videoId,
+            type: "Video",
+          },
+          chapterId,
+          email: admin.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+        }
+      );
+      setSelectedVideo(null);
+      setvideoName("");
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="success"
+        >
+          Uploaded Successfully
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+    } catch (error) {
+      setvideoUploadLoader(false);
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          Upload Failed
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+    }
+  };
+
+  const handlechapterpdfonchange = async (e, chapterId) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setSelectedpdf({ file, pdfName: file.name });
+    } else {
+      alert("Please select a valid PDF file.");
+    }
+  };
+
+  const handlechapterpdfupload = async (e, chapterId) => {
+    if (!formData.courseId) {
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          Course ID not found
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+    if (pdfName === null) {
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          Enter Name
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+    if (selectedpdf.file === "") {
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          Upload File
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+    try {
+      setvideoUploadLoader(true);
+
+      const prefix = "PDF";
+      const uniquePart = uuidv4().replace(/-/g, "").substr(0, 6);
+      const pdfId = `${prefix}${uniquePart}`;
+
+      const storageRef = ref(
+        storage,
+        `courses/${formData.courseId}/${chapterId}/${pdfId}`
+      );
+
+      const snapshot = await uploadBytes(storageRef, selectedpdf.file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      setvideoUploadLoader(false);
+
+      const response = await axios.post(
+        `https://beliverz-admin-server.vercel.app/courses/${courseId}/upload-content`,
+        {
+          content: {
+            PdfURL: downloadURL,
+            PdfName: pdfName,
+            contentId: pdfId,
+            type: "Pdf",
+          },
+          chapterId,
+          email: admin.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+        }
+      );
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="success"
+        >
+          Uploaded Successfully
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+      setSelectedpdf(null);
+      setpdfName("");
+    } catch (error) {
+      setvideoUploadLoader(false);
+      setAlert(
+        <Alert
+          style={{ position: "fixed", bottom: "3", left: "2", zIndex: "999" }}
+          variant="filled"
+          severity="warning"
+        >
+          {error.response.data.error || "Upload Failed"}
+        </Alert>
+      );
+      setTimeout(() => setAlert(null), 5000);
+    }
+  };
+
   return (
     <div className="AdminCoursePage flex flex-col relative">
       <Stack spacing={2}>{alert}</Stack>
@@ -281,7 +590,7 @@ export default function AdminCoursePage() {
         <>
           <button
             onClick={handleSubmit}
-            className="button-filled fixed left-1/2 bottom-10"
+            className="button-filled fixed left-1/2 bottom-10 z-50"
           >
             save
           </button>
@@ -594,10 +903,197 @@ export default function AdminCoursePage() {
                   </label>
                 </div>
               </section>
-              <div
-                id="course-instructors"
-                className="bg-black w-screen h-screen"
-              ></div>
+              <section className="flex flex-col gap-4 py-16 items-center">
+                <div className="flex flex-col w-11/12 justify-center gap-6">
+                  <p className="text-black1 text-2xl md:text-xl font-semibold">
+                    Create New Chapter!
+                  </p>
+                  <div className="flex md:flex-col w-full justify-between">
+                    <TextField
+                      label="Chapter Name"
+                      className="w-2/3 md:w-full"
+                      value={chapterName}
+                      onChange={(e) => setchapterName(e.target.value)}
+                    />
+                    <button
+                      className="text-white bg-[#5a81ee] py-3 rounded-xl  custom-width-30 md:w-full"
+                      onClick={createNewCoursef}
+                    >
+                      Create New!
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <section className="flex md:flex-col justify-between custom-width-88 md:w-11/12 mx-auto py-12 items-center">
+                <div className="flex flex-col w-2/3  md:w-full">
+                  <AccordionGroup>
+                    {formData.chapters && (
+                      <>
+                        {formData.chapters.map((chapter, index) => (
+                          <Accordion
+                            expanded={expandedPanel === `panel${index}-`}
+                            onChange={handleChange(`panel${index}-`)}
+                            className="p-4"
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                expandedPanel === `panel${index}-` ? (
+                                  <KeyboardArrowUpIcon />
+                                ) : (
+                                  <KeyboardArrowUpIcon />
+                                )
+                              }
+                              aria-controls={`panel${index}-a-content`}
+                              id={`panel${index}-a-header`}
+                            >
+                              <p
+                                className={` text-2xl md:text-xl font-semibold ${
+                                  expandedPanel === `panel${index}-`
+                                    ? "text-blue"
+                                    : "text-black"
+                                }`}
+                              >
+                                {chapter.chapterName}
+                              </p>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              {chaptercontentupload ? (
+                                <LinearProgress
+                                  color="primary"
+                                  determinate={false}
+                                  size="md"
+                                  variant="soft"
+                                />
+                              ) : (
+                                <div className="flex flex-col">
+                                  <div className="w-full flex flex-col">
+                                    {chapter.content.map((item, index) => (
+                                      <>
+                                        {index}
+                                        {item.type === "Video" ? (
+                                          <p>
+                                            {item.type}
+                                            {item.VideoName}
+                                          </p>
+                                        ) : (
+                                          <p>
+                                            {item.type}
+                                            {item.PdfName}
+                                          </p>
+                                        )}
+                                      </>
+                                    ))}
+                                  </div>
+                                  <div className="w-full flex md:flex-col">
+                                    <div className="flex w-1/2 flex-col items-start md:w-full gap-2">
+                                      <p className="text-lg text-black1 font-medium">
+                                        Upload video
+                                      </p>
+                                      <input
+                                        type="file"
+                                        accept="video/*"
+                                        onChange={(e) =>
+                                          handlechaptervideoonchange(
+                                            e,
+                                            chapter.chapterId
+                                          )
+                                        }
+                                      />
+                                      <TextField
+                                        label="Video Name"
+                                        value={videoName}
+                                        onChange={(e) =>
+                                          setvideoName(e.target.value)
+                                        }
+                                      />
+                                      <button
+                                        className="button-filled"
+                                        onClick={(e) =>
+                                          handlechaptervideoupload(
+                                            e,
+                                            chapter.chapterId
+                                          )
+                                        }
+                                      >
+                                        Upload
+                                      </button>
+                                    </div>
+                                    <div className="flex w-1/2 flex-col items-start md:w-full gap-2">
+                                      <p className="text-lg text-black1 font-medium">
+                                        Upload notes (pdf)
+                                      </p>
+                                      <input
+                                        type="file"
+                                        accept=".pdf"
+                                        onChange={(e) =>
+                                          handlechapterpdfonchange(
+                                            e,
+                                            chapter.chapterId
+                                          )
+                                        }
+                                      />{" "}
+                                      <TextField
+                                        label="Pdf Name"
+                                        value={pdfName}
+                                        onChange={(e) =>
+                                          setpdfName(e.target.value)
+                                        }
+                                      />
+                                      <button
+                                        className="button-filled"
+                                        onClick={(e) =>
+                                          handlechapterpdfupload(
+                                            e,
+                                            chapter.chapterId
+                                          )
+                                        }
+                                      >
+                                        Upload
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </AccordionDetails>
+                          </Accordion>
+                        ))}
+                      </>
+                    )}
+                  </AccordionGroup>
+                </div>
+                {instructorloading ? (
+                  <LinearProgress
+                    color="primary"
+                    determinate={false}
+                    size="md"
+                    variant="soft"
+                  />
+                ) : (
+                  <div
+                    id="course-instructors"
+                    style={{ border: "1px solid #5a81ee" }}
+                    className="w-1/4 flex p-12 flex-col gap-12 md:w-full justify-center rounded-xl"
+                  >
+                    <p className="text-black1 text-2xl md:text-xl font-semibold">
+                      Instructors
+                    </p>
+                    <div className="flex flex-col gap-4 w-full">
+                      {instructors && instructors.length > 0 && (
+                        <>
+                          {instructors.map((item, index) => (
+                            <div className="w-full flex justify-left gap-4 items-center mx-auto ">
+                              <Avatar src={item.photo && item.photo} />
+                              <p className="text-black2 font-medium text-lg md:text-base underline">
+                                {item.instructorName}
+                              </p>
+                            </div>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </section>
             </>
           ) : (
             <div

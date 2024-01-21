@@ -268,7 +268,7 @@ export default function AdminInstructors() {
       setLoading(true);
 
       const response = await axios.patch(
-        `http://localhost:5000/admin/edit-instructor/${formData.instructorId}`,
+        `https://beliverz-admin-server.vercel.app/admin/edit-instructor/${formData.instructorId}`,
         formData,
         {
           headers: {
@@ -316,7 +316,7 @@ export default function AdminInstructors() {
       try {
         setLoading(true);
         await axios.delete(
-          `http://localhost:5000/admin/delete-instructor/${formData.instructorId}`,
+          `https://beliverz-admin-server.vercel.app/admin/delete-instructor/${formData.instructorId}`,
           {
             headers: {
               Authorization: `Bearer ${admin.token}`,
