@@ -20,6 +20,7 @@ import AdminForm from "./Pages/Admin/Form/AdminForm";
 import Instructorsettings from "./Pages/Instructor/Settings/Instructorsettings";
 import AdminCoursePage from "./Pages/Admin/AdminCoursesPage/AdminCoursePage";
 import InstructorCoursesPage from "./Pages/Instructor/InstructorCoursesPage/InstructorCoursesPage";
+import DeleteCourse from "./Pages/Admin/DeleteCourse/DeleteCourse";
 
 export default function App() {
   const admin = JSON.parse(localStorage.getItem("admin"));
@@ -111,6 +112,14 @@ export default function App() {
             element={
               <AdminProtectedRoute>
                 <AdminCoursePage />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/delete-course"
+            element={
+              <AdminProtectedRoute>
+                <DeleteCourse />
               </AdminProtectedRoute>
             }
           />

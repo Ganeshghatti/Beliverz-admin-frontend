@@ -16,6 +16,7 @@ import { logout } from "../../../features/Admin";
 import CategoryIcon from "@mui/icons-material/Category";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
@@ -90,10 +91,7 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
-    <ListItemButton>
+    {/* <ListItemButton>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
@@ -110,7 +108,7 @@ export const secondaryListItems = (
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
-    </ListItemButton>
+    </ListItemButton> */}
     <Link to="/admin/settings">
       <ListItemButton className="mt-18">
         <ListItemIcon>
@@ -119,6 +117,15 @@ export const secondaryListItems = (
         <ListItemText primary="Settings" />
       </ListItemButton>
     </Link>
+
     <LogoutButton />
+    <Link to="/admin/delete-course">
+      <ListItemButton className="mt-18 border-2 border-solid border-[#FF0000]">
+        <ListItemIcon>
+          <DeleteIcon style={{ color: "red" }} />
+        </ListItemIcon>
+        <ListItemText primary="Delete Course" className="text-[#FF0000]" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );

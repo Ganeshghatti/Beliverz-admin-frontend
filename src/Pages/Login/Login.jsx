@@ -112,7 +112,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/login",
+        "http://localhost:5000/instructor/login",
         instructorFormData
       );
       const instructor = {
