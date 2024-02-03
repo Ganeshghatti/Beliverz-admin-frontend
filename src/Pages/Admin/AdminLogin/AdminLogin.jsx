@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { saveinstructor } from "../../features/Instructor";
+import { saveadmin } from "../../../features/Admin";
+import { saveinstructor } from "../../../features/Instructor";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -17,13 +18,13 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import "./Login.css";
-import Spinnerf from "../../Components/Spinnerf";
+import "./AdminLogin.css";
+import Spinnerf from "../../../Components/Spinnerf";
 import { Stack } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +37,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const [instructorFormData, setInstructorFormData] = useState({
+  const [adminFormData, setAdminFormData] = useState({
     email: "",
     password: "",
   });
@@ -49,42 +50,36 @@ const Login = () => {
     });
   };
 
-  const handleInstructorChange = (e) => {
-    const { name, value } = e.target;
-    setInstructorFormData({
-      ...instructorFormData,
-      [name]: value,
-    });
-  };
-
-  const handleInstructorSubmit = async (e) => {
+  const handleAdminSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
+      console.log(adminFormData)
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/login",
-        instructorFormData
+        "https://beliverz-admin-server.vercel.app/admin/login",
+        adminFormData
       );
-      const instructor = {
+      console.log(response)
+      const admin = {
         email: response.data.email,
         token: response.data.token,
-        isInstructor: response.data.isInstructor,
+        isAdmin: response.data.isAdmin,
       };
 
-      localStorage.setItem("instructor", JSON.stringify(instructor));
+      localStorage.setItem("admin", JSON.stringify(admin));
       dispatch(
-        saveinstructor({
+        saveadmin({
           email: response.data.email,
           token: response.data.token,
-          isInstructor: response.data.isInstructor,
+          isAdmin: response.data.isAdmin,
         })
       );
-      navigate(`/instructor/dashboard`);
+      navigate(`/admin/dashboard`);
       setLoading(false);
     } catch (error) {
+      console.log(error)
       setLoading(false);
-      console.log(error);
       setAlert(
         <Alert
           style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
@@ -101,36 +96,36 @@ const Login = () => {
   return (
     <section
       className="w-screen h-screen flex md:flex-col justify-center items-center gap-6"
-      id="login"
+      id="adminlogin"
     >
-      {loading && <Spinnerf />} <Stack spacing={2}>{alert}</Stack>{" "}
+      {loading && <Spinnerf />} <Stack spacing={2}>{alert}</Stack>
       <form
-        onSubmit={handleInstructorSubmit}
+        onSubmit={handleAdminSubmit}
         className="rounded md:w-11/12 w-1/3 p-12 flex flex-col gap-3 md:p-6"
         style={{ backgroundColor: "white" }}
       >
         <p className="text-black text-3xl font-semibold text-center">
-          INSTRUCTOR LOGIN
+          ADMIN LOGIN
         </p>
         <TextField
-          id="instructor-email"
+          id="admin-email"
           variant="outlined"
           type="email"
           name="email"
-          value={instructorFormData.email}
+          value={adminFormData.email}
           label="Email ID"
-          onChange={handleInstructorChange}
+          onChange={handleAdminChange}
           className="w-full rounded form-input"
           required
         />
         <FormControl variant="outlined">
-          <InputLabel htmlFor="instructor-password">Password</InputLabel>
+          <InputLabel htmlFor="admin-password">Password</InputLabel>
           <OutlinedInput
-            id="instructor-password"
+            id="admin-password"
             className="w-full rounded form-input"
             type={showPassword ? "text" : "password"}
-            value={instructorFormData.password}
-            onChange={handleInstructorChange}
+            value={adminFormData.password}
+            onChange={handleAdminChange}
             name="password"
             required
             endAdornment={
@@ -152,11 +147,11 @@ const Login = () => {
           type="submit"
           className="bg-blue border-1 border-solid border-blue text-white rounded w-full py-3 hero-hover-animated-button"
         >
-          Instructor Login
+          Admin Login
         </button>
       </form>
     </section>
   );
 };
 
-export default Login;
+export default AdminLogin;
