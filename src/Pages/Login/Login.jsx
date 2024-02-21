@@ -63,7 +63,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/login",
+        "https://beliverz-server.vercel.app/instructor/login",
         instructorFormData
       );
       const instructor = {

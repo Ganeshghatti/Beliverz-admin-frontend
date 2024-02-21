@@ -87,7 +87,7 @@ export default function AdminCategory() {
       setLoading(true);
 
       const response = await axios.put(
-        "https://beliverz-admin-server.vercel.app/admin/edit-category",
+        "https://beliverz-server.vercel.app/admin/edit-category",
         {
           categories: allcategory,
         },

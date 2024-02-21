@@ -29,7 +29,7 @@ export default function AdminForm() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-formdata`,
+            `https://beliverz-server.vercel.app/admin/get-formdata`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,

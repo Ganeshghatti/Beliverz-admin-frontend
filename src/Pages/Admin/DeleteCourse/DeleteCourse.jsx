@@ -128,7 +128,7 @@ export default function DeleteCourse() {
       setLoading(true);
       console.log(adminFormData);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/admin/login",
+        "https://beliverz-server.vercel.app/admin/login",
         adminFormData
       );
       console.log(response);

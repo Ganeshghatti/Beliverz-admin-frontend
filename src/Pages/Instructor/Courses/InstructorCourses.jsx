@@ -51,7 +51,7 @@ export default function InstructorCourses() {
           setLoading(true);
 
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/instructor/get-accessible-course`,
+            `https://beliverz-server.vercel.app/instructor/get-accessible-course`,
             {
               headers: {
                 Authorization: `Bearer ${instructor.token}`,

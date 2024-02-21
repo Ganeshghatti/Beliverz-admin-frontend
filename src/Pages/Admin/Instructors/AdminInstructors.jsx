@@ -109,7 +109,7 @@ export default function AdminInstructors() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-instructors`,
+            `https://beliverz-server.vercel.app/admin/get-all-instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -148,7 +148,7 @@ export default function AdminInstructors() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-course-names`,
+            `https://beliverz-server.vercel.app/admin/get-all-course-names`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -224,7 +224,7 @@ export default function AdminInstructors() {
       setLoading(true);
       console.log(formData);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/admin/create-instructor",
+        "https://beliverz-server.vercel.app/admin/create-instructor",
         formData,
         {
           headers: {
@@ -271,7 +271,7 @@ export default function AdminInstructors() {
       setLoading(true);
 
       const response = await axios.patch(
-        `https://beliverz-admin-server.vercel.app/admin/edit-instructor/${formData.instructorId}`,
+        `https://beliverz-server.vercel.app/admin/edit-instructor/${formData.instructorId}`,
         formData,
         {
           headers: {
@@ -319,7 +319,7 @@ export default function AdminInstructors() {
       try {
         setLoading(true);
         await axios.delete(
-          `https://beliverz-admin-server.vercel.app/admin/delete-instructor/${formData.instructorId}`,
+          `https://beliverz-server.vercel.app/admin/delete-instructor/${formData.instructorId}`,
           {
             headers: {
               Authorization: `Bearer ${admin.token}`,

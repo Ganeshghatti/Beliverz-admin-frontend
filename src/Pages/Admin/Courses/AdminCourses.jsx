@@ -350,7 +350,7 @@ export default function AdminCourses() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/admin/create-course",
+        "https://beliverz-server.vercel.app/admin/create-course",
         formData,
         {
           headers: {

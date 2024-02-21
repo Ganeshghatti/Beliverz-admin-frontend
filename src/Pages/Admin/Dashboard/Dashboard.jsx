@@ -56,7 +56,7 @@ export default function Dashboard() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-users`,
+            `https://beliverz-server.vercel.app/admin/get-all-users`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,

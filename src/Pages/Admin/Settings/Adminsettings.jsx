@@ -70,7 +70,7 @@ export default function Adminsettings() {
       setLoading(true);
       console.log(formData);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/admin/change-password",
+        "https://beliverz-server.vercel.app/admin/change-password",
         {
           formData,
           email: admin.email,

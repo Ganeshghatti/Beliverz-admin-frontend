@@ -72,7 +72,7 @@ export default function Instructorsettings() {
           setLoading(true);
           console.log(instructor.token);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/instructor/get-instructor`,
+            `https://beliverz-server.vercel.app/instructor/get-instructor`,
             {
               headers: {
                 Authorization: `Bearer ${instructor.token}`,
@@ -151,7 +151,7 @@ export default function Instructorsettings() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/change-password",
+        "https://beliverz-server.vercel.app/instructor/change-password",
         {
           formData,
           email: instructor.email,
@@ -210,7 +210,7 @@ export default function Instructorsettings() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-admin-server.vercel.app/instructor/change-photoAndName",
+        "https://beliverz-server.vercel.app/instructor/change-photoAndName",
         {
           formData,
           email: instructor.email,

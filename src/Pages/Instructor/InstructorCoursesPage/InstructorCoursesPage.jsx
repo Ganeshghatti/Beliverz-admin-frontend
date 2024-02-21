@@ -76,7 +76,7 @@ export default function InstructorCoursesPage() {
           setLoading(true);
           console.log(courseId);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/courses/${courseId}`,
+            `https://beliverz-server.vercel.app/courses/${courseId}`,
             {
               headers: {
                 Authorization: `Bearer ${instructor.token}`,
@@ -115,7 +115,7 @@ export default function InstructorCoursesPage() {
           setinstructorLoading(true);
           console.log(courseId);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/courses/${courseId}/instructors`,
+            `https://beliverz-server.vercel.app/courses/${courseId}/instructors`,
             {
               headers: {
                 Authorization: `Bearer ${instructor.token}`,
@@ -152,7 +152,7 @@ export default function InstructorCoursesPage() {
       console.log(formData);
       setLoading(true);
       const response = await axios.put(
-        `https://beliverz-admin-server.vercel.app/courses/${courseId}`,
+        `https://beliverz-server.vercel.app/courses/${courseId}`,
         formData,
         {
           headers: {
@@ -342,7 +342,7 @@ export default function InstructorCoursesPage() {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://beliverz-admin-server.vercel.app/courses/${courseId}/newChapter`,
+        `https://beliverz-server.vercel.app/courses/${courseId}/newChapter`,
         { chapterName, email: instructor.email },
         {
           headers: {
@@ -430,7 +430,7 @@ export default function InstructorCoursesPage() {
       setvideoUploadLoader(false);
 
       const response = await axios.post(
-        `https://beliverz-admin-server.vercel.app/courses/${courseId}/upload-content`,
+        `https://beliverz-server.vercel.app/courses/${courseId}/upload-content`,
         {
           content: {
             VideoURL: downloadURL,
@@ -539,7 +539,7 @@ export default function InstructorCoursesPage() {
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       const response = await axios.post(
-        `https://beliverz-admin-server.vercel.app/courses/${courseId}/upload-content`,
+        `https://beliverz-server.vercel.app/courses/${courseId}/upload-content`,
         {
           content: {
             PdfURL: downloadURL,
@@ -592,7 +592,7 @@ export default function InstructorCoursesPage() {
       if (isConfirmed && chapterId && courseId) {
         setLoading(true);
         const response = await axios.delete(
-          `https://beliverz-admin-server.vercel.app/courses/${courseId}/delete-chapter/${chapterId}`,
+          `https://beliverz-server.vercel.app/courses/${courseId}/delete-chapter/${chapterId}`,
           {
             headers: {
               Authorization: `Bearer ${instructor.token}`,
@@ -635,7 +635,7 @@ export default function InstructorCoursesPage() {
       if (isConfirmed && chapterId && courseId && contentId) {
         setLoading(true);
         const response = await axios.delete(
-          `https://beliverz-admin-server.vercel.app/courses/${courseId}/delete-content/${chapterId}/${contentId}`,
+          `https://beliverz-server.vercel.app/courses/${courseId}/delete-content/${chapterId}/${contentId}`,
           {
             headers: {
               Authorization: `Bearer ${instructor.token}`,
