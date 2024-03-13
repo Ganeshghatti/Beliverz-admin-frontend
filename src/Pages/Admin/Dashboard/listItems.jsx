@@ -37,6 +37,14 @@ export const mainListItems = (
         <ListItemText primary="Instructors" />
       </ListItemButton>
     </Link>
+    <Link to="/admin/testseries">
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Test Series" />
+      </ListItemButton>
+    </Link>
     {/* <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />

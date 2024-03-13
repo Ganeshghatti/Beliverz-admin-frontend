@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import firebase from "firebase/app";
-// import "firebase/storage";
-// import { useFirebaseApp, useUser } from "reactfire";
 import Panel from "../Panel/Panel";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -33,6 +30,8 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import QuizIcon from "@mui/icons-material/Quiz";
 
 const storage = getStorage(app);
 
@@ -47,8 +46,8 @@ const style = {
   padding: "16px",
   overflow: "auto",
   height: "100vh",
-  width: "90vw", 
-  '@media (min-width: 868px)': {
+  width: "90vw",
+  "@media (min-width: 868px)": {
     width: "75vw",
   },
 };
@@ -93,7 +92,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-course`,
+            `https://api.beliverzjrf.com/admin/get-all-course`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -132,7 +131,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-instructors`,
+            `https://api.beliverzjrf.com/admin/get-all-instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -170,7 +169,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-category`,
+            `https://api.beliverzjrf.com/admin/get-all-category`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -350,7 +349,7 @@ export default function AdminCourses() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/admin/create-course",
+        "https://api.beliverzjrf.com/admin/create-course",
         formData,
         {
           headers: {
@@ -712,11 +711,12 @@ export default function AdminCourses() {
                 className="flex flex-col items-center justify-center cursor-pointer admin-courses-card bg-[#F1F3F2]"
                 onClick={handleOpen}
               >
-                <img
+                {/* <img
                   style={{ objectFit: "contain" }}
                   src={plus}
                   className="w-2/5"
-                />
+                /> */}
+                <OndemandVideoIcon style={{ fontSize: "75px" }} />
                 <p className="font-bold text-2xl md:text-xl">
                   Create New Course
                 </p>

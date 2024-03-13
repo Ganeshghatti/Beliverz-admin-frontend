@@ -17,6 +17,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DeleteIcon from "@mui/icons-material/Delete";
+import QuizIcon from "@mui/icons-material/Quiz";
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,14 @@ export const mainListItems = (
           <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary="Courses" />
+      </ListItemButton>
+    </Link>
+    <Link to="/admin/testseries">
+      <ListItemButton>
+        <ListItemIcon>
+          <QuizIcon />
+        </ListItemIcon>
+        <ListItemText primary="Test Series" />
       </ListItemButton>
     </Link>
     <Link to="/admin/instructors">
@@ -119,13 +128,13 @@ export const secondaryListItems = (
     </Link>
 
     <LogoutButton />
-    <Link to="/admin/delete-course">
+    {/* <Link to="/admin/delete-course">
       <ListItemButton className="mt-18 border-2 border-solid border-[#FF0000]">
         <ListItemIcon>
           <DeleteIcon style={{ color: "red" }} />
         </ListItemIcon>
         <ListItemText primary="Delete Course" className="text-[#FF0000]" />
       </ListItemButton>
-    </Link>
+    </Link> */}
   </React.Fragment>
 );
