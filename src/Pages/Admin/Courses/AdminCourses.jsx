@@ -32,6 +32,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import QuizIcon from "@mui/icons-material/Quiz";
+import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
 
@@ -92,7 +93,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/admin/get-all-course`,
+            `${SERVER_URL}/admin/get-all-course`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -131,7 +132,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/admin/get-all-instructors`,
+            `${SERVER_URL}/admin/get-all-instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -169,7 +170,7 @@ export default function AdminCourses() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/admin/get-all-category`,
+            `${SERVER_URL}/admin/get-all-category`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -349,7 +350,7 @@ export default function AdminCourses() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://api.beliverzjrf.com/admin/create-course",
+        `${SERVER_URL}/admin/create-course`,
         formData,
         {
           headers: {

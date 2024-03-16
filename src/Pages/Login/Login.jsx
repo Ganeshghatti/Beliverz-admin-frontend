@@ -22,6 +22,7 @@ import Spinnerf from "../../Components/Spinnerf";
 import { Stack } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../config/server";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/instructor/login",
+        `${SERVER_URL}/instructor/login`,
         instructorFormData
       );
       const instructor = {

@@ -42,6 +42,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { SERVER_URL } from "../../../config/server";
 
 export default function Dashboard() {
   const { courseId } = useParams();
@@ -56,7 +57,7 @@ export default function Dashboard() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-server.vercel.app/admin/get-all-users`,
+            `${SERVER_URL}/admin/get-all-users`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,

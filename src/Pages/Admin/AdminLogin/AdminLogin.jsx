@@ -23,6 +23,7 @@ import Spinnerf from "../../../Components/Spinnerf";
 import { Stack } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../../config/server";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const AdminLogin = () => {
       setLoading(true);
       console.log(adminFormData)
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/admin/login",
+        `${SERVER_URL}/admin/login`,
         adminFormData
       );
       console.log(response)

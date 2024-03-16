@@ -15,6 +15,7 @@ import Spinnerf from "../../../Components/Spinnerf";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
+import { SERVER_URL } from "../../../config/server";
 
 export default function Adminsettings() {
   const [formData, setFormData] = useState({
@@ -70,7 +71,7 @@ export default function Adminsettings() {
       setLoading(true);
       console.log(formData);
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/admin/change-password",
+        `${SERVER_URL}/admin/change-password`,
         {
           formData,
           email: admin.email,

@@ -16,6 +16,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { SERVER_URL } from "../../../config/server";
 
 export default function AdminForm() {
   const [formData, setformData] = useState();
@@ -29,7 +30,7 @@ export default function AdminForm() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-server.vercel.app/admin/get-formdata`,
+            `${SERVER_URL}/admin/get-formdata`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,

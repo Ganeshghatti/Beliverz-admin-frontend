@@ -17,6 +17,7 @@ import imgplaceholder from "./imgplaceholder.jpg";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "../../../config/Firebase";
 import { TextField } from "@mui/material";
+import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
 
@@ -34,7 +35,7 @@ export default function AdminCategory() {
         if (admin.isAdmin) {
           setLoading(true);
           const responseCourses = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-course`,
+            `${SERVER_URL}/admin/get-all-course`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -44,7 +45,7 @@ export default function AdminCategory() {
           setallcourses(responseCourses.data.courses);
 
           const responseCategories = await axios.get(
-            `https://beliverz-admin-server.vercel.app/admin/get-all-category`,
+            `${SERVER_URL}/admin/get-all-category`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -87,7 +88,7 @@ export default function AdminCategory() {
       setLoading(true);
 
       const response = await axios.put(
-        "https://beliverz-server.vercel.app/admin/edit-category",
+        `${SERVER_URL}/admin/edit-category`,
         {
           categories: allcategory,
         },

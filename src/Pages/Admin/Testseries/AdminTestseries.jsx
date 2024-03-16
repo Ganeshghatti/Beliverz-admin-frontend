@@ -32,6 +32,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import QuizIcon from "@mui/icons-material/Quiz";
+import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
 
@@ -82,7 +83,7 @@ export default function AdminTestseries() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/admin/get-all-testseries`,
+            `${SERVER_URL}/admin/get-all-testseries`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -120,7 +121,7 @@ export default function AdminTestseries() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/admin/get-all-instructors`,
+            `${SERVER_URL}/admin/get-all-instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -203,7 +204,7 @@ export default function AdminTestseries() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://api.beliverzjrf.com/admin/create-testseries",
+        `${SERVER_URL}/admin/create-testseries`,
         formData,
         {
           headers: {

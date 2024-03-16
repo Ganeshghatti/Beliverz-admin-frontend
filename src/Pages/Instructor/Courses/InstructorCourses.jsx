@@ -33,6 +33,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import sad from "./sad.png";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
 
@@ -51,7 +52,7 @@ export default function InstructorCourses() {
           setLoading(true);
 
           const response = await axios.get(
-            `https://beliverz-server.vercel.app/instructor/get-accessible-course`,
+            `${SERVER_URL}/instructor/get-accessible-course`,
             {
               headers: {
                 Authorization: `Bearer ${instructor.token}`,

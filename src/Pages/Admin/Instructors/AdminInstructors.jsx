@@ -38,6 +38,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { SERVER_URL } from "../../../config/server";
 
 const style = {
   position: "absolute",
@@ -109,7 +110,7 @@ export default function AdminInstructors() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-server.vercel.app/admin/get-all-instructors`,
+            `${SERVER_URL}/admin/get-all-instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -148,7 +149,7 @@ export default function AdminInstructors() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `https://beliverz-server.vercel.app/admin/get-all-course-names`,
+            `${SERVER_URL}/admin/get-all-course-names`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -224,7 +225,7 @@ export default function AdminInstructors() {
       setLoading(true);
       console.log(formData);
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/admin/create-instructor",
+        `${SERVER_URL}/admin/create-instructor`,
         formData,
         {
           headers: {
@@ -271,7 +272,7 @@ export default function AdminInstructors() {
       setLoading(true);
 
       const response = await axios.patch(
-        `https://beliverz-server.vercel.app/admin/edit-instructor/${formData.instructorId}`,
+        `${SERVER_URL}/admin/edit-instructor/${formData.instructorId}`,
         formData,
         {
           headers: {
@@ -319,7 +320,7 @@ export default function AdminInstructors() {
       try {
         setLoading(true);
         await axios.delete(
-          `https://beliverz-server.vercel.app/admin/delete-instructor/${formData.instructorId}`,
+          `${SERVER_URL}/admin/delete-instructor/${formData.instructorId}`,
           {
             headers: {
               Authorization: `Bearer ${admin.token}`,

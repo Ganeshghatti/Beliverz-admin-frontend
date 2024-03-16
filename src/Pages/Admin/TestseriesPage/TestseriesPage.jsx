@@ -40,6 +40,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
 const videoStyle = {
@@ -70,7 +71,7 @@ export default function TestseriesPage() {
           setLoading(true);
           console.log(testseriesId);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/testseries/${testseriesId}`,
+            `${SERVER_URL}/testseries/${testseriesId}`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -109,7 +110,7 @@ export default function TestseriesPage() {
         if (testseriesId && admin.token) {
           setinstructorLoading(true);
           const response = await axios.get(
-            `https://api.beliverzjrf.com/testseries/${testseriesId}/instructors`,
+            `${SERVER_URL}/testseries/${testseriesId}/instructors`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -145,7 +146,7 @@ export default function TestseriesPage() {
     try {
       setLoading(true);
       const response = await axios.put(
-        `https://api.beliverzjrf.com/testseries/${testseriesId}`,
+        `${SERVER_URL}/testseries/${testseriesId}`,
         { updatedtestseriesDetails: formData, email: admin.email },
         {
           headers: {

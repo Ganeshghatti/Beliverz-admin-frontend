@@ -35,6 +35,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { SERVER_URL } from "../../../config/server";
 
 const style = {
   position: "absolute",
@@ -87,7 +88,7 @@ export default function DeleteCourse() {
         if (admin.isAdmin) {
           setLoading(true);
           const response = await axios.get(
-            `http://localhost:5000/admin/get-all-course`,
+            `${SERVER_URL}/admin/get-all-course`,
             {
               headers: {
                 Authorization: `Bearer ${admin.token}`,
@@ -128,7 +129,7 @@ export default function DeleteCourse() {
       setLoading(true);
       console.log(adminFormData);
       const response = await axios.post(
-        "https://beliverz-server.vercel.app/admin/login",
+        `${SERVER_URL}/admin/login`,
         adminFormData
       );
       console.log(response);
