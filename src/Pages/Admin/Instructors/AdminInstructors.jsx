@@ -51,8 +51,8 @@ const style = {
   padding: "16px",
   overflow: "auto",
   height: "100vh",
-  width: "90vw", 
-  '@media (min-width: 868px)': {
+  width: "90vw",
+  "@media (min-width: 868px)": {
     width: "75vw",
   },
 };
@@ -60,10 +60,23 @@ const style = {
 export default function AdminInstructors() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    // setFormData({
+    //   instructorId: "",
+    //   name: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   photo: "",
+    //   courses: "",
+    //   testseries: "",
+    // });
+    setOpen(false);
+  };
 
   const [editopen, seteditOpen] = useState(false);
   const handleeditOpen = (instructor) => {
+    console.log(instructor);
     setFormData({
       instructorId: instructor.instructorId,
       name: instructor.instructorName,
@@ -72,10 +85,23 @@ export default function AdminInstructors() {
       confirmPassword: "",
       photo: instructor.photo,
       courses: instructor.coursesAllowed,
+      testseries: instructor.testseriesAllowed,
     });
     seteditOpen(true);
   };
-  const handleeditClose = () => seteditOpen(false);
+  const handleeditClose = () => {
+    seteditOpen(false);
+    // setFormData({
+    //   instructorId: "",
+    //   name: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   photo: "",
+    //   courses: "",
+    //   testseries: "",
+    // });
+  };
   const navigate = useNavigate();
 
   const admin = useSelector((state) => state.admin.admin);
@@ -83,6 +109,7 @@ export default function AdminInstructors() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [allcoursenames, setallcoursenames] = useState();
+  const [alltestseries, setalltestseries] = useState();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -90,6 +117,7 @@ export default function AdminInstructors() {
     photo: "",
     confirmPassword: "",
     courses: [],
+    testseries: [],
   });
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -117,7 +145,6 @@ export default function AdminInstructors() {
               },
             }
           );
-          console.log(response);
           setallinstructors(response.data.instructors);
           setLoading(false);
         }
@@ -182,7 +209,46 @@ export default function AdminInstructors() {
     fetchData();
   }, [admin]);
 
-  const handleCheckboxChange = (courseIdInput, courseNameInput) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (admin.isAdmin) {
+          setLoading(true);
+          const response = await axios.get(
+            `${SERVER_URL}/admin/get-all-testseries-names`,
+            {
+              headers: {
+                Authorization: `Bearer ${admin.token}`,
+              },
+            }
+          );
+          console.log(response);
+          setalltestseries(response.data.testseries);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setLoading(false);
+          return navigate(`/`);
+        }
+        setAlert(
+          <Alert
+            style={{ position: "fixed", bottom: "3%", left: "2%", zIndex: 999 }}
+            variant="filled"
+            severity="error"
+          >
+            {error.response.data.error}
+          </Alert>
+        );
+        setTimeout(() => setAlert(null), 5000);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [admin]);
+
+  const handleCourseCheckboxChange = (courseIdInput, courseNameInput) => {
     console.log(courseIdInput, courseNameInput);
 
     const updatedCourses = formData.courses.some(
@@ -197,6 +263,32 @@ export default function AdminInstructors() {
     setFormData({
       ...formData,
       courses: updatedCourses,
+    });
+  };
+
+  const handleTestseriesCheckboxChange = (
+    testseriesIdInput,
+    testseriesNameInput
+  ) => {
+    console.log(testseriesIdInput, testseriesNameInput);
+
+    const updatedTestseries = formData.testseries.some(
+      (testserie) => testserie.testseriesId === testseriesIdInput
+    )
+      ? formData.testseries.filter(
+          (testserie) => testserie.testseriesId !== testseriesIdInput
+        )
+      : [
+          ...formData.testseries,
+          {
+            testseriesId: testseriesIdInput,
+            testseriesName: testseriesNameInput,
+          },
+        ];
+
+    setFormData({
+      ...formData,
+      testseries: updatedTestseries,
     });
   };
 
@@ -357,6 +449,7 @@ export default function AdminInstructors() {
       }
     }
   };
+
   return (
     <div className="AdminInstructors flex" id="AdminInstructors">
       <Panel tab="Instructors" />
@@ -460,7 +553,7 @@ export default function AdminInstructors() {
                               (c) => c.courseId === course.courseId
                             )}
                             onChange={() =>
-                              handleCheckboxChange(
+                              handleCourseCheckboxChange(
                                 course.courseId,
                                 course.courseName
                               )
@@ -468,6 +561,38 @@ export default function AdminInstructors() {
                           />
                         }
                         label={course.courseName}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Spinnerf />
+            )}
+
+            {alltestseries ? (
+              <div className="flex flex-col w-full">
+                <label className="text-lg font-normal poppins">
+                  Select Testseries to Allow:
+                </label>{" "}
+                <div className="flex flex-wrap gap-4">
+                  {alltestseries.map((testseries) => (
+                    <div key={testseries.testseriesId}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.testseries.some(
+                              (t) => t.testseriesId === testseries.testseriesId
+                            )}
+                            onChange={() =>
+                              handleTestseriesCheckboxChange(
+                                testseries.testseriesId,
+                                testseries.testseriesName
+                              )
+                            }
+                          />
+                        }
+                        label={testseries.testseriesName}
                       />
                     </div>
                   ))}
@@ -541,7 +666,7 @@ export default function AdminInstructors() {
                               (c) => c.courseId === course.courseId
                             )}
                             onChange={() =>
-                              handleCheckboxChange(
+                              handleCourseCheckboxChange(
                                 course.courseId,
                                 course.courseName
                               )
@@ -549,6 +674,37 @@ export default function AdminInstructors() {
                           />
                         }
                         label={course.courseName}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Spinnerf />
+            )}
+            {alltestseries ? (
+              <div className="flex flex-col w-full">
+                <label className="text-lg font-normal poppins">
+                  Select Testseries to Allow:
+                </label>
+                <div className="flex flex-wrap gap-4">
+                  {alltestseries.map((testseries) => (
+                    <div key={testseries.testseriesId}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.testseries.some(
+                              (t) => t.testseriesId === testseries.testseriesId
+                            )}
+                            onChange={() =>
+                              handleTestseriesCheckboxChange(
+                                testseries.testseriesId,
+                                testseries.testseriesName
+                              )
+                            }
+                          />
+                        }
+                        label={testseries.testseriesName}
                       />
                     </div>
                   ))}

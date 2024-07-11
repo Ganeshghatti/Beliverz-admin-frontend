@@ -24,6 +24,8 @@ import DeleteCourse from "./Pages/Admin/DeleteCourse/DeleteCourse";
 import AdminLogin from "./Pages/Admin/AdminLogin/AdminLogin";
 import AdminTestseries from "./Pages/Admin/Testseries/AdminTestseries";
 import TestseriesPage from "./Pages/Admin/TestseriesPage/TestseriesPage";
+import InstructorTestseries from "./Pages/Instructor/InstructorTestseries/InstructorTestseries";
+import InstructorTestseriesPage from "./Pages/Instructor/InstructorTestseriesPage/InstructorTestseriesPage";
 
 export default function App() {
   const admin = JSON.parse(localStorage.getItem("admin"));
@@ -174,6 +176,22 @@ export default function App() {
             element={
               <InstructorProtectedRoute>
                 <InstructorCoursesPage />
+              </InstructorProtectedRoute>
+            }
+          />
+          <Route
+            path="/instructor/testseries"
+            element={
+              <InstructorProtectedRoute>
+                <InstructorTestseries />
+              </InstructorProtectedRoute>
+            }
+          />
+          <Route
+            path="/instructor/testseries/:testseriesId"
+            element={
+              <InstructorProtectedRoute>
+                <InstructorTestseriesPage />
               </InstructorProtectedRoute>
             }
           />

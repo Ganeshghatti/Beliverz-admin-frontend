@@ -42,6 +42,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { SERVER_URL } from "../../../config/server";
 
 const storage = getStorage(app);
+
 const videoStyle = {
   width: "100%",
   height: "auto",
@@ -75,7 +76,6 @@ export default function AdminCoursePage() {
       try {
         if (admin.isAdmin && courseId) {
           setLoading(true);
-          console.log(courseId);
           const response = await axios.get(
             `${SERVER_URL}/courses/${courseId}`,
             {
@@ -114,7 +114,6 @@ export default function AdminCoursePage() {
       try {
         if (courseId && admin.token) {
           setinstructorLoading(true);
-          console.log(courseId);
           const response = await axios.get(
             `${SERVER_URL}/courses/${courseId}/instructors`,
             {
@@ -460,7 +459,9 @@ export default function AdminCoursePage() {
         </Alert>
       );
       setTimeout(() => setAlert(null), 5000);
+      console.log(response)
     } catch (error) {
+      console.log(error)
       setvideoUploadLoader(false);
       setAlert(
         <Alert

@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../features/Admin";
 import SettingsIcon from "@mui/icons-material/Settings";
+import QuizIcon from "@mui/icons-material/Quiz";
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,14 @@ export const mainListItems = (
           <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary="Courses" />
+      </ListItemButton>
+    </Link>
+    <Link to="/instructor/testseries">
+      <ListItemButton>
+        <ListItemIcon>
+          <QuizIcon />
+        </ListItemIcon>
+        <ListItemText primary="Test Series" />
       </ListItemButton>
     </Link>
     <Link to="/instructor/settings">
