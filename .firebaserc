@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "beliverz-prod"
+    "default": "beliverz-production",
+    "production": "beliverz-production",
+    "staging": "beliverz-staging"
   }
 }

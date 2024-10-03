@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./Pages/Navbar/Navbar";
 import Login from "./Pages/Login/Login";
 import AdminCourses from "./Pages/Admin/Courses/AdminCourses";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { saveadmin } from "./features/Admin";
 import AdminInstructors from "./Pages/Admin/Instructors/AdminInstructors";

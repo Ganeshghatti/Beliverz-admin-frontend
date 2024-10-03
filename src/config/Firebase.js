@@ -1,12 +1,14 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD7PRg1qhuRP0CrtfOj-puIjfb_HmLn4tg",
-  authDomain: "beliverz-prod.firebaseapp.com",
-  projectId: "beliverz-prod",
-  storageBucket: "beliverz-prod.appspot.com",
-  messagingSenderId: "917347137280",
-  appId: "1:917347137280:web:1989f51e45f86a6e52e5e5"
+  apiKey: "AIzaSyDgNtK3yWPmBmn-hblwWQqtV9rARC5aSCE",
+  authDomain: "beliverz-production.firebaseapp.com",
+  projectId: "beliverz-production",
+  storageBucket: "beliverz-production.appspot.com",
+  messagingSenderId: "855623196375",
+  appId: "1:855623196375:web:da26b4385757f54b6c1a92"
 };
 
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export { app };

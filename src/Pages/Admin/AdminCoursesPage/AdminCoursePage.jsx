@@ -281,6 +281,7 @@ export default function AdminCoursePage() {
       }));
       setvideoUploadLoader(false);
     } catch (error) {
+      console.log(error)
       setvideoUploadLoader(false);
       setAlert(
         <Alert
